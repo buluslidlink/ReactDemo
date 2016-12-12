@@ -1,0 +1,16 @@
+{
+  "name": "KoaAndReact",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "description": "This project is built to learn about Koa and React.",
+  "main": "app.js",
+  "dependencies": {
+    "koa": "^1.2.4"
+  },
+  "devDependencies": {},
+  "author": "buluslid",
+  "license": "MIT"
+}
