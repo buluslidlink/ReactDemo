@@ -1,0 +1,60 @@
+{
+  "name": "KoaAndReact" ,
+  "version": "1.0.0" ,
+  "private": true ,
+  "scripts": {
+   // webpack -w // 提供watch方法，实时进行打包更新
+  //  webpack -p // 对打包后的文件进行压缩，提供production
+    //webpack -d // 提供source map，方便调试。
+    //  "start": "node app"
+    //   "dev":"webpack-dev-server --progress --profile --colors --hot --port 9999",
+    "build": "webpack --progress --profile --colors"
+  } ,
+  "description": "This project is built to learn about Koa and React." ,
+  "main": "app.js" ,
+  "dependencies": {} ,
+  "devDependencies": {
+    "babel-core": "^6.20.0" ,
+    /*以编程的方式来调用Babel的API进行转码*/
+    "babel-preset-es2015": "^6.18.0" ,
+    /*支持ES6的写法*/
+    "babel-preset-react": "^6.16.0" ,
+    /*在代码中可以使用React ES6 classes的写法，同时直接支持JSX语法格式*/
+    "babel-preset-stage-0": "^6.16.0" ,
+    /*支持ES7不同阶段的语法（共有4个阶段),0 包含了[1-3] */
+    "babel-loader": "^6.2.9" ,
+    /*根据preset加载转换脚本*/
+
+    /*React Transform，模块热替换的功能，就可以在改动某处文件之后保存，页面上直接显示出改动的效果*/
+    "babel-plugin-react-transform": "^2.0.2" ,
+    /*通过它完成各种transform，基本架子，实现Hot Module Replacement，需要安装下面的transform.*/
+    "react-transform-hmr": "^1.0.4" ,
+    "babel-preset-react-hmre": "^1.1.1" ,
+    /*让Babel知道HMR（热替换），涉及到了webpack.config.js里loader为babel（也就是js、jsx使用babel-loader地方）的配置*/
+    "redbox-react": "^1.3.3" ,
+    /*和catch-errors一起在页面显示react错误*/
+    "react-transform-catch-errors": "^1.0.2" ,
+    /*webpack*/
+    "webpack": "^1.14.0" ,
+    /*
+    http://www.tuicool.com/articles/22aQ7vu
+    webpack 本身只負責打包編譯的功能 bundle,
+    webpack-dev-server 當然就是協助我們開發的伺服器，這個伺服器底層是靠 express 來實作的，
+    接著思考一下我們要如何更新(live reload)呢? 當然是需要取得 webpack 編好的資料啊，
+    於是就需要在從 request 到 response 的過程中透過 express 的 middleware 取得資料，
+    而方法就是透過 webpack-dev-middleware 。
+    比起直接編譯成檔案，webpack-dev-middleware 這個套件還多了一些好處:
+不需要一直寫入磁碟，所有產生的結果會直接存在記憶體，
+在監視模式(watch mode)下如果檔案發生異動，middleware 會馬上停止提供舊版的 bundle 並且會延遲請求的回應直到編譯完成。
+如此一來我們就不需要去 觀察編譯是否結束了
+*/
+    "webpack-dev-middleware": "^1.8.4" ,
+    "webpack-hot-middleware": "^2.13.2" ,
+    /*我們都知道 webpack dev server 有提供一種 Hot Module Replacement/Hot Reloading 熱替換的功能。在一般 webpack-dev-server 的時候我們會在 webpack.config.js 加入 new webpack.HotModuleReplacementPlugin() 或設定來啟用。
+    而 webpack hot middleware 是給 webpack-dev-middleware 用的。就是讓我們在一般的 server 上加上熱替換的功能，總結來說就是 webpack-dev-middleware + webpack-hot-middleware 即可讓我們用 express 客製一個有熱替換功能的 webpack 開發伺服器。*/
+    "webpack-dev-server": "^1.16.2"
+    /*用来伺服资源文件，不能替代后端的服务器，因此如果你还要进行后端开发，就要采用双服务器模式：一个后端服务器和一个资源服务器（即Webpack-dev-server)。并且当代码更新的时候自动刷新浏览器*/
+  } ,
+  "author": "bulusli" ,
+  "license": "MIT"
+}
