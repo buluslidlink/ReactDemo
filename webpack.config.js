@@ -14,34 +14,42 @@ var webpack = require('webpack');
 var path = require('path');
 var cssLoader = 'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]';
 var etp = require('extract-text-webpack-plugin');
+var is_env_dev = (process.env.NODE_ENV);
+console.log('is_env_dev:', is_env_dev);
 module.exports = {
     entry: [
-        'webpack-hot-middleware/client', //這隻檔案會連到 server 目的是當 server 重新編譯好檔案時收到通知然後更新 client 的檔案。
-        './js/react_flux/components/firstComponent.js'
+        //這隻檔案會連到 server 目的是當 server 重新編譯好檔案時收到通知然後更新 client 的檔案。
+        //'webpack-dev-server/client?http://0.0.0.0:8080', /*webpack-dev-server运行时，通过该脚本与资源服务器通信完成刷新，http参数表示可以跨域访问资源*/
+        './js/react/test.js', //必须这样写，不能写成js/test.js
+        // 'jquery'
     ],
     output: {
-        path: '/build',
-        publicPath: '/file',
+        path: 'build',
+        publicPath: '/build',
         name: 'bundle.js'
     },
     resolve: {
-        extensions: ['', '.js', '.jsx', '.css', '.less']
+        extensions: ['', '.js', 'jsx']
     },
     module: {
         loaders: [{
-            test: /\.js$/,
+            test: /\.jsx?$/,
             include: [path.resolve(__dirname, 'js')],
-            loaders: ['react-hot', 'babel']
-        }, {
-            test: /\.css/,
-            include: [path.resolve(__dirname, 'css')],
-            loader: etp.extract("style-loader", cssLoader)
-        }]
+            // exclude: /node_modules/,
+            loaders: ['babel']
+        },
+            {
+                test: /\.(css|less)$/,
+                include: [path.resolve(__dirname, 'css')],
+                //loader: 'style!css!less'
+                loader: etp.extract('style', 'css', 'less')
+            }
+        ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new etp("style.css"),
-        new webpack.NoErrorsPlugin()
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        // new webpack.optimize.UglifyJsPlugin()
     ]
 }
 
