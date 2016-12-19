@@ -91,15 +91,16 @@ class Home extends Component {
 class Repos extends Component {
     render() {
         return (<ul>
-            <li><NavLink to="/repos/reactjs/react-router">React Router</NavLink></li>
-            <li><NavLink to="/repos/facebook/react">React</NavLink></li>
+            {/*<li><NavLink to="/repos/reactjs/react-router">React Router</NavLink></li>*/}
+            {/*<li><NavLink to="/repos/facebook/react">React</NavLink></li>*/}
+            {this.props.children}
         </ul>)
     }
 }
 
 class Repo extends Component {
     render() {
-        return <h2>{this.props.params.repName}</h2>
+        return <h2>{this.props.params.proName}</h2>
     }
 }
 
@@ -201,8 +202,9 @@ ReactDOM.render(
             <Route component={Parent} path='parent'>
                 <Route component={Child1} path='/child1'/>
                 <Route component={Child2} path='/child2'/>
-                <Route component={Repos} path='/repos'/>
-                <Route component={Repo} path='/repos/:repName/:content'/>
+                <Route component={Repos} path='/repos'>
+                    <Route component={Repo} path='/repos/:proName/:conent'/>
+                </Route>
             </Route>
         </Route>
     </Router>,

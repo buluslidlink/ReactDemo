@@ -14,19 +14,18 @@ var webpack = require('webpack');
 var path = require('path');
 var cssLoader = 'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]';
 var etp = require('extract-text-webpack-plugin');
-var is_env_dev = (process.env.NODE_ENV);
+var is_env_dev = (process.env.NODE_ENV === 'development');
 console.log('is_env_dev:', is_env_dev);
-module.exports = {
+module.exports = is_env_dev ?
+{
     entry: [
-        //這隻檔案會連到 server 目的是當 server 重新編譯好檔案時收到通知然後更新 client 的檔案。
-        //'webpack-dev-server/client?http://0.0.0.0:8080', /*webpack-dev-server运行时，通过该脚本与资源服务器通信完成刷新，http参数表示可以跨域访问资源*/
-        './js/react/test.js', //必须这样写，不能写成js/test.js
-        // 'jquery'
+        'webpack-hot-middleware?client',
+        './js/react/test.js' //必须这样写，不能写成js/test.js
     ],
     output: {
-        path: 'build',
-        publicPath: '/build',
-        name: 'bundle.js'
+        path: '/build', //`output.path` needs to be an absolute path or `/`.
+        publicPath: '/static',
+        filename: 'bundle.js'
     },
     resolve: {
         extensions: ['', '.js', 'jsx']
@@ -36,7 +35,42 @@ module.exports = {
             test: /\.jsx?$/,
             include: [path.resolve(__dirname, 'js')],
             // exclude: /node_modules/,
-            loaders: ['babel']
+            loaders: (['react-hot', 'babel'])
+        },
+            {
+                test: /\.(css|less)$/,
+                include: [path.resolve(__dirname, 'css')],
+                //loader: 'style!css!less'
+                loader: etp.extract('style', 'css', 'less')
+            }
+        ]
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        new webpack.DefinePlugin({
+            __DEV__: true,
+            __PRERELEASE__: false
+        })
+    ]
+} :
+{
+    entry: [
+        './js/react/test.js' //必须这样写，不能写成js/test.js
+    ],
+    output: {
+        path: '/build', //`output.path` needs to be an absolute path or `/`.
+        publicPath: '/build',
+        filename: 'bundle.js'
+    },
+    resolve: {
+        extensions: ['', '.js', 'jsx']
+    },
+    module: {
+        loaders: [{
+            test: /\.jsx?$/,
+            include: [path.resolve(__dirname, 'js')],
+            loaders: ( ['babel'])
         },
             {
                 test: /\.(css|less)$/,
@@ -49,7 +83,11 @@ module.exports = {
     plugins: [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        // new webpack.optimize.UglifyJsPlugin()
+        //   new webpack.optimize.UglifyJsPlugin(),
+        new webpack.DefinePlugin({
+            __DEV__: false,
+            __PRERELEASE__: true
+        })
     ]
 }
 

@@ -601,3 +601,9 @@ module.exports = {
         //...
     }
 };
+// 1. 不会刷新浏览器
+//$ webpack-dev-server
+//2. 刷新浏览器
+//$ webpack-dev-server --inline
+//3. 重新加载改变的部分，HRM失败则刷新页面
+//$ webpack-dev-server  --inline --hot

@@ -1,8 +1,3 @@
-var path = require('path');
-var express = require('express');
-var webpack = require('webpack');
-var config = require('./webpack.config');
-
 // var path = require(`path`);
 // var express = require(`express`);
 // var webpack = require(`webpack`);
@@ -35,23 +30,39 @@ var config = require('./webpack.config');
 //     }
 // });
 
-var express = require('express');
 var path = require('path');
-var compression = require('compression');
-
+var express = require('express');
+var webpack = require('webpack');
+var config = require('./webpack.config');
+var compiler = webpack(config);
 var app = express();
+var compression = require('compression');
+var isProd = (process.env.NODE_ENV === 'production');
 
-app.use(compression());
+if (isProd) {
+    app.use(express.static(path.join(__dirname, 'build')));
+    app.use(compression());
+}
 
-// serve our static stuff like index.css
-app.use(express.static(path.join(__dirname, 'build')));
+if (!isProd) {
+    var webpackDevOptions = {
+        noInfo: true, //是否显示webpack的build详细信息
+        historyApiFallback: true,
+        publicPath: config.output.publicPath,
+        headers: { //跨域资源访问
+            'Access-Control-Allow-Origin': '*'
+        }
+    };
+    app.use(require('webpack-dev-middleware')(compiler, webpackDevOptions));
+    app.use(require('webpack-hot-middleware')(compiler));
+}
 
-// send all requests to index.html so browserHistory works
-app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'))
-})
+app.use(require('./route/route.js'));
 
-var PORT = process.env.PORT || 8080
-app.listen(PORT, function () {
-    console.log('Production Express server running at localhost:' + PORT)
-})
+app.listen(8787, '0.0.0.0', function (err) {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    console.log('Listen http://localhost:8787');
+});
