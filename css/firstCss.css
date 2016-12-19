@@ -1,0 +1,12 @@
+.parent {
+    color: green;
+    display: block;
+}
+
+.child1 {
+    style:{color: red}
+}
+
+.child2 {
+
+}

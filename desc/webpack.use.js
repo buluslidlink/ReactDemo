@@ -106,3 +106,45 @@ app.listen(8787, '0.0.0.0', function (err) {
         console.log(err);
     }
 });
+
+//webpack.config
+
+module.exports = {
+    entry: [
+        'webpack-hot-middleware/client?reload=true', //這隻檔案會連到 server 目的是當 server 重新編譯好檔案時收到通知然後更新 client 的檔案,reload表示重新加载，如果只有ES6的代码，需要加上这个，如果是react，可以不加。。
+        './js/test1.js', //必须这样写，不能写成js/test.js
+    ],
+    output: {
+        path: '/build',
+        publicPath: '/file',
+        name: 'bundle.js'
+    },
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            include: [path.resolve(__dirname, 'js')],
+            loaders: ['babel']
+        }]
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ]
+}
+
+//js中引入了css的情况，默认是作为内置style放在html中。可以通过extract-text-webpack-plugin提取js中的脚本，并合并为一个。
+
+var etp = require('extract-text-webpack-plugin');
+module.exports = {
+    module: {
+        loaders: [{
+            test: /\.css/,
+            include: [path.resolve(__dirname, 'css')],
+            // exclude: /node_modules/,
+            loader: etp.extract("style-loader", "css-loader")
+        }]
+    },
+    plugins: [
+        new etp("style.css")  //在页面中引入link标签，使用该css名称
+    ]
+}

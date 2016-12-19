@@ -8,4 +8,8 @@
  * Summary     : 
  *
  * *************************************************************/
-require('./test.js')();
+import funcA, {obj} from './test';
+import b_s from '../css/b.css';
+funcA();
+alert('qqqqqqqq');
+alert(JSON.stringify(obj));

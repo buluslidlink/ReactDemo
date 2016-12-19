@@ -1,31 +1,35 @@
-//require(`webpack-dev-server/bin/webpack-dev-server.js`);
+var path = require('path');
+var express = require('express');
+var webpack = require('webpack');
+var config = require('./webpack.config');
 
-var path = require(`path`);
-var express = require(`express`);
-var webpack = require(`webpack`);
-var config = require(`./webpack.config`);
-var compiler = webpack(config);
 var app = express();
+var compiler = webpack(config);
 
 var webpackDevOptions = {
-    publicPath: config.output.publicPath
+    noInfo: true,
+    historyApiFallback: true,
+    publicPath: config.output.publicPath,
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+    }
 };
 
-app.use(`/svr`, function (req, res) {
-    res.send(`success`);
-});
-//app.use(express.static(path.resolve(__dirname,`js`)));
-app.use(require(`webpack-dev-middleware`)(compiler, webpackDevOptions));
-app.use(require(`webpack-hot-middleware`)(compiler));
-
-app.use(`/test`, function (req, res) {
-    res.sendFile(path.join(__dirname, `index.html`));
+app.use('/svr', function (req, res) {  //服务请求
+    res.send('success');
 });
 
-app.listen(8787, `0.0.0.0`, function (err) {
+app.use(require('webpack-dev-middleware')(compiler, webpackDevOptions));
+app.use(require('webpack-hot-middleware')(compiler));
+
+app.get('/test', function (req, res) {//静态资源请求
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(8787, '0.0.0.0', function (err) {
     if (err) {
         console.log(err);
+        return;
     }
+    console.log('Listening at http://localhost:8787');
 });
-
-console.log(process.env.NODE_ENV);
