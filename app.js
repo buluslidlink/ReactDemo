@@ -42,9 +42,7 @@ var isProd = (process.env.NODE_ENV === 'production');
 if (isProd) {
     app.use(express.static(path.join(__dirname, 'build')));
     app.use(compression());
-}
-
-if (!isProd) {
+} else {
     var webpackDevOptions = {
         noInfo: true, //是否显示webpack的build详细信息
         historyApiFallback: true,
