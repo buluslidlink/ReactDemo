@@ -15,22 +15,15 @@ const initialState = {
 const LOAD_ARTICLES = 'LOAD_ARTICLES';
 const LOAD_ARTICLES_SUCCESS = 'LOAD_ARTICLES_SUCCESS';
 const LOAD_ARTICLES_ERROR = 'LOAD_ARTICLES_ERROR';
-import $ from 'jquery';
+
 export function loadArticles() {
-    // return {
-    //     type: LOAD_ARTICLES,
-    //     url: '/svr'
-    // }
-    return function (dispatch, getState) {
-        $.ajax({
-            url: '/svr',
+    return {
+        type: LOAD_ARTICLES_SUCCESS,
+        para: {
+            url: '/svr/titleList',
             type: 'get',
             dataType: 'json'
-        }).then((data)=> {
-            dispatch({type: LOAD_ARTICLES_SUCCESS, payload: {data}});
-        }).catch((err)=> {
-            dispatch({type: LOAD_ARTICLES_ERROR, payload: err});
-        });
+        }
     }
 }
 
@@ -45,7 +38,7 @@ export default function previewList(state = initialState, action) {
         }
         case LOAD_ARTICLES_SUCCESS: {
             return {
-                articleList: action.payload.data,
+                articleList: action.payload,
                 loading: false,
                 error: false
             }
@@ -54,7 +47,7 @@ export default function previewList(state = initialState, action) {
             return {
                 articleList: [],
                 loading: false,
-                error: action.payload.err
+                error: action.payload
             }
         }
         default: {

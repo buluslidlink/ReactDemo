@@ -19,8 +19,8 @@ import routers from './routes';
 
 const store = configStore();
 const history = syncHistoryWithStore(browserHistory, store);
-ReactDOM.render((
+ReactDOM.render(
     <Provider store={store}>
         {routers(history)}
     </Provider>
-), document.getElementById('root'));
+    , document.getElementById('root'));

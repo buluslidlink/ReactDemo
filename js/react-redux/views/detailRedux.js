@@ -8,3 +8,9 @@
  * Summary     : 
  *
  * *************************************************************/
+import {combineReducers} from 'redux';
+import ctxAction, {contentReducer} from '../components/detail/contentRedux';
+export default combineReducers({contentReducer});
+export const detailAction = {
+    ctxAction
+}

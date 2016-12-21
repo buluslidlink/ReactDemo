@@ -56,10 +56,10 @@ module.exports = is_env_dev ?
 } :
 {
     entry: [
-        './desc/test.js' //必须这样写，不能写成js/test.js
+        './js/react-redux/app.js' //必须这样写，不能写成js/test.js
     ],
     output: {
-        path: 'build',
+        path: '/build',
         publicPath: '/build',
         filename: 'bundle.js'
     },

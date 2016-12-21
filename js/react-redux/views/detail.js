@@ -9,11 +9,18 @@
  *
  * *************************************************************/
 import React, {Component} from 'react';
+import {connect} from  'react-redux';
+import {bindActionCreators} from  'redux';
+import  Content from  '../components/detail/content';
+import {detailAction} from './detailRedux';
 class Detail extends Component {
     render() {
-        return <div>
-            Detail Content {this.props.params.id}!!!!
-        </div>
+        const id = this.props.params.id;
+        return (<Content {...this.props.contentState} id={id} {...this.props.cttAction}/>)
     }
 }
-export default Detail;
+export default connect((state)=> {
+    return {contentState: state.detailReducer.contentReducer}
+}, (dispatch)=> {
+    return {cttAction: bindActionCreators(detailAction, dispatch)}
+})(Detail);

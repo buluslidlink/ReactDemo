@@ -10,6 +10,7 @@
  * *************************************************************/
 
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 class Preview extends Component {
     static propTypes = {
         title: React.PropTypes.string,
@@ -17,11 +18,10 @@ class Preview extends Component {
     };
 
     render() {
+        const path = `/detail/${this.props.id}`;
         return (
             <article>
-                <Link path='/'>{this.props.title}</Link>
-                <span>{this.props.date}</span>
-                <p>{this.props.description}</p>
+                <Link to={path}>{this.props.title}</Link>
             </article>)
     }
 }

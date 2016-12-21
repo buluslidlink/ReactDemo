@@ -10,7 +10,9 @@
  * *************************************************************/
 
 import homeReducer from '../views/homeRedux';
+import detailReducer from '../views/detailRedux';
 
 export default {
-    homeReducer
+    homeReducer,
+    detailReducer
 }
