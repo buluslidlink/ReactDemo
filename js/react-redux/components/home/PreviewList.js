@@ -16,16 +16,22 @@ class PreviewList extends Component {
         articleList: React.PropTypes.arrayOf(React.PropTypes.object)
     }
 
+    componentDidMount() {
+        this.props.loadArticles();
+    }
+
     render() {
-        return (
-            <ul>
-                {
-                    this.props.articleList.map((data)=> {
-                        <li><Preview {...data} key={data.id}/></li>
-                    })
-                }
-            </ul>
-        );
+        const {loading, error, articleList}=this.props;
+        console.log('########render:', articleList);
+        if (loading) {
+            return <span>...Loading</span>
+        }
+        if (error) {
+            return <span>OOPs,error happens.detail:{error}</span>
+        }
+        return (<div>{articleList.map((data)=>
+            (<Preview {...data} key={data.id}/>)
+        )}</div>)
     }
 }
 export default PreviewList;

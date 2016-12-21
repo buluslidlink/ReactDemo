@@ -14,10 +14,9 @@ import {Router, Route, browserHistory, IndexRoute} from 'react-router';
 import Home from '../views/home';
 import Frame from '../layouts/frame';
 import Detail from '../views/detail';
-// import Detail from '../views/detail';
 
-export default routers => (
-    <Router history={browserHistory}>
+export default history => (
+    <Router history={history}>
         <Route component={Frame} path='/'>
             <IndexRoute component={Home}/>
             <Route component={Detail} path='/detail/:id'/>

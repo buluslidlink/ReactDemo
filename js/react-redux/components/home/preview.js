@@ -19,7 +19,7 @@ class Preview extends Component {
     render() {
         return (
             <article>
-                <h1>{this.props.title}</h1>
+                <Link path='/'>{this.props.title}</Link>
                 <span>{this.props.date}</span>
                 <p>{this.props.description}</p>
             </article>)

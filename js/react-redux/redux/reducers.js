@@ -8,3 +8,9 @@
  * Summary     : 
  *
  * *************************************************************/
+
+import homeReducer from '../views/homeRedux';
+
+export default {
+    homeReducer
+}

@@ -20,7 +20,7 @@ module.exports = is_env_dev ?
 {
     entry: [
         'webpack-hot-middleware?client',
-        './desc/test.js' //必须这样写，不能写成js/test.js
+        './js/react-redux/app.js' //必须这样写，不能写成js/test.js
     ],
     output: {
         path: '/build', //`output.path` needs to be an absolute path or `/`.

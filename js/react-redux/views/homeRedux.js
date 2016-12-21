@@ -9,6 +9,9 @@
  *
  * *************************************************************/
 import {combineReducers} from 'redux';
-import previewList from '../components/home/previewListRedux';
+import previewList, {loadArticles} from '../components/home/previewListRedux';
 export default combineReducers({previewList});
-export * as listAction from '../components/home/previewListRedux';
+//export * as listAction from '../components/home/previewListRedux';
+export const actions = {
+    loadArticles
+}

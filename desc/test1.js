@@ -11,13 +11,3 @@
 import funcA, {obj} from './test';
 funcA(); //相当于调用module.exports.default属性。
 alert(JSON.stringify(obj)); //obj为module.exports.obj属性。
-
-export default  function (store) {
-    return function (next) {
-        return function (action) {
-            console.log('dispatch:', action);
-            next(action);
-            console.log('finish:', action);
-        }
-    }
-}

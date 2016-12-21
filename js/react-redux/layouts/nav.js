@@ -14,9 +14,6 @@ class Nav extends Component {
     render() {
         return <div>
             <h1><Link to='/'>Home</Link></h1>
-            <h1><Link to='/detail/1'>1</Link></h1>
-            <h1><Link to='/detail/2'>2</Link></h1>
-            <h1><Link to='/detail/3'>3</Link></h1>
         </div>
     }
 }

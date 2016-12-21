@@ -9,7 +9,18 @@
  *
  * *************************************************************/
 
+import React from 'react';
 import ReactDOM from 'react-dom';
-import routers from './routes/';
+import configStore from './redux/configStore';
+import {Provider} from 'react-redux';
+import {syncHistoryWithStore} from  'react-router-redux';
+import {browserHistory} from 'react-router';
+import routers from './routes';
 
-ReactDOM.render(routers(), document.getElementById('root'));
+const store = configStore();
+const history = syncHistoryWithStore(browserHistory, store);
+ReactDOM.render((
+    <Provider store={store}>
+        {routers(history)}
+    </Provider>
+), document.getElementById('root'));

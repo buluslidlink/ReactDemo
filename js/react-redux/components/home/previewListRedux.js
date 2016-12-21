@@ -10,17 +10,27 @@
  * *************************************************************/
 
 const initialState = {
-    loading: true,
-    error: false,
     articleList: []
 }
-
 const LOAD_ARTICLES = 'LOAD_ARTICLES';
 const LOAD_ARTICLES_SUCCESS = 'LOAD_ARTICLES_SUCCESS';
+const LOAD_ARTICLES_ERROR = 'LOAD_ARTICLES_ERROR';
+import $ from 'jquery';
 export function loadArticles() {
-    return {
-        types: [LOAD_ARTICLES, LOAD_ARTICLES_SUCCESS],
-        url: '/svr'
+    // return {
+    //     type: LOAD_ARTICLES,
+    //     url: '/svr'
+    // }
+    return function (dispatch, getState) {
+        $.ajax({
+            url: '/svr',
+            type: 'get',
+            dataType: 'json'
+        }).then((data)=> {
+            dispatch({type: LOAD_ARTICLES_SUCCESS, payload: {data}});
+        }).catch((err)=> {
+            dispatch({type: LOAD_ARTICLES_ERROR, payload: err});
+        });
     }
 }
 
@@ -35,10 +45,16 @@ export default function previewList(state = initialState, action) {
         }
         case LOAD_ARTICLES_SUCCESS: {
             return {
-                ...state,
+                articleList: action.payload.data,
                 loading: false,
-                error: false,
-                articleList: action.articleList
+                error: false
+            }
+        }
+        case LOAD_ARTICLES_ERROR: {
+            return {
+                articleList: [],
+                loading: false,
+                error: action.payload.err
             }
         }
         default: {
