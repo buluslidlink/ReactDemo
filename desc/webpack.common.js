@@ -607,3 +607,33 @@ module.exports = {
 //$ webpack-dev-server --inline
 //3. 重新加载改变的部分，HRM失败则刷新页面
 //$ webpack-dev-server  --inline --hot
+
+
+/**
+ * webpack --entry ./entry.js --output-path dist --output-file bundle.js --colors --profile --display-modules
+ 不过这次新增加了三个参数，这三个参数的含义分别是：
+ --colors 输出结果带彩色，比如：会用红色显示耗时较长的步骤
+ --profile输出性能数据，可以看到每一步的耗时
+ --display-modules默认情况下 node_modules 下的模块会被隐藏，加上这个参数可以显示这些被隐藏的模块
+
+ 别名（resolve.alias） 是 Webpack 的一个配置项，它的作用是把用户的一个请求重定向到另一个路径，例如通过修改 webpack.config.js配置文件，加入：
+ resolve: {
+    alias: {
+        moment: "moment/min/moment-with-locales.min.js"
+    }
+  }
+ module.noParse 是 webpack 的另一个很有用的配置项，如果你 确定一个模块中没有其它新的依赖 就可以配置这项，webpack 将不再扫描这个文件中的依赖。
+ module: {
+    noParse: [/moment-with-locales/]
+  }
+ 这样待打包的脚本中的 require('moment'); 其实就等价于 require('moment/min/moment-with-locales.min.js'); 。通过别名的使用在本例中可以减少几乎一半的时间。
+
+
+ 虑到 Web 上有很多的公用 CDN 服务，那么 怎么将 Webpack 和公用的 CDN 结合使用呢？方法是使用 externals声明一个外部依赖。
+ externals: {
+    moment: true
+  }
+ 当然了 HTML 代码里需要加上一行
+ <script src="//apps.bdimg.com/libs/moment/2.8.3/moment-with-locales.min.js"></script>
+ 这次打包，结果只用了 49 ms，几乎达到了极限。
+ */

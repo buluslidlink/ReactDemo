@@ -40,7 +40,6 @@ router.use('/svr/titleList', function (req, res) {
 });
 
 router.use('/svr/detail/:id', function (req, res) {
-    console.log('req:', req.params.id);
     res.send(data.filter(d=>d.id === (+req.params.id)));
 });
 

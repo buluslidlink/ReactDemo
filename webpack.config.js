@@ -15,6 +15,7 @@ var path = require('path');
 var cssLoader = 'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]';
 var etp = require('extract-text-webpack-plugin');
 var is_env_dev = (process.env.NODE_ENV === 'development');
+var FileListPlugin = require('./js/plugin/testPlugin');
 console.log('is_env_dev:', is_env_dev);
 module.exports = is_env_dev ?
 {
@@ -48,6 +49,7 @@ module.exports = is_env_dev ?
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
+        new FileListPlugin(),
         new webpack.DefinePlugin({
             __DEV__: true,
             __PRERELEASE__: false
@@ -59,13 +61,15 @@ module.exports = is_env_dev ?
         './js/react-redux/app.js' //必须这样写，不能写成js/test.js
     ],
     output: {
-        path: '/build',
+        path: 'build',
         publicPath: '/build',
         filename: 'bundle.js'
-    },
+    }
+    ,
     resolve: {
         extensions: ['', '.js', 'jsx']
-    },
+    }
+    ,
     module: {
         loaders: [{
             test: /\.jsx?$/,
@@ -79,10 +83,12 @@ module.exports = is_env_dev ?
                 loader: etp.extract('style', 'css', 'less')
             }
         ]
-    },
+    }
+    ,
     plugins: [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
+     //   new FileListPlugin(),
         //   new webpack.optimize.UglifyJsPlugin(),
         new webpack.DefinePlugin({
             __DEV__: false,

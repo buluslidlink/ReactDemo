@@ -1,3 +1,33 @@
 SCSS 是 Sass 3 引入新的语法，其语法完全兼容 CSS3，并且继承了 Sass 的强大功能。也就是说，任何标准的 CSS3 样式表都是具有相同语义的有效的 SCSS 文件。另外，SCSS 还能识别大部分 CSS hacks（一些 CSS 小技巧）和特定于浏览器的语法，例如：古老的 IE filter 语法。
 
 由于 SCSS 是 CSS 的扩展，因此，所有在 CSS 中正常工作的代码也能在 SCSS 中正常工作。也就是说，对于一个 Sass 用户，只需要理解 Sass 扩展部分如何工作的，就能完全理解 SCSS。大部分扩展，例如变量、parent references 和 指令都是一致的；唯一不同的是，SCSS 需要使用分号和花括号而不是换行和缩进。
+
+Autoprefixer
+
+Autoprefixer 是一个流行的 PostCSS 插件，其作用是为 CSS 中的属性添加浏览器特定的前缀。由于 CSS 规范的制定和完善一般需要花费比较长的时间，浏览器厂商在实现某个 CSS 新功能时，会使用特定的浏览器前缀来作为正式规范版本之前的实验性实现。比如 Webkit 核心的浏览器使用-webkit-，微软的 IE 使用-ms-。为了兼容不同浏览器的不同版本，在编写 CSS 样式规则声明时通常需要添加额外的带前缀的属性。这是一项繁琐而无趣的工作。Autoprefixer 可以自动的完成这项工作。Autoprefixer 可以根据需要指定支持的浏览器类型和版本，自动添加所需的带前缀的属性声明。开发人员在编写 CSS 时只需要使用 CSS 规范中的标准属性名即可。
+
+中给出了使用 CSS 弹性盒模型的 display 属性声明。
+
+清单 4. 标准的 CSS 弹性盒模型的 display 属性声明
+
+#content {
+ display: flex;
+}
+在经过 Autoprefixer 处理之后得到的 CSS 如所示。
+
+清单 5. 使用 Autoprefixer 处理之后的 CSS
+
+#content {
+ display: -webkit-box;
+ display: -webkit-flex;
+ display: -ms-flexbox;
+ display: flex;
+}
+Autoprefixer 使用 Can I Use 网站提供的数据来确定所要添加的不同浏览器的前缀。随着浏览器版本的升级，浏览器在新版本中可能已经提供了对标准属性的支持，从而不再需要添加额外的前缀。Autoprefixer 可以配置需要支持的浏览器。如“last 2 versions”表示主流浏览器的最近两个版本，“ie 6-8”表示 IE 6 到 8，“> 1%”表示全球使用率大于 1%的浏览器版本。中给出了配置 Autoprefixer 插件的示例。
+
+清单 6. 配置 Autoprefixer 插件
+
+require('autoprefixer')({
+ browsers: ['last 2 versions']
+})
+Autoprefixer 除了添加所需要的属性名称前缀之外，还可以移除 CSS 代码中冗余的属性名称前缀。遗留 CSS 代码中可能包含由开发人员手动添加的旧版本的浏览器所支持的带前缀的属性名称。Autoprefixer 默认情况下会移除这些冗余的前缀。可以通过配置对象中的 remove 属性来配置该行为。

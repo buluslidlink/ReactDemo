@@ -44,7 +44,7 @@ if (isProd) {
     app.use(compression());
 } else {
     var webpackDevOptions = {
-        noInfo: true, //是否显示webpack的build详细信息
+        noInfo: false, //是否显示webpack的build详细信息
         historyApiFallback: true,
         publicPath: config.output.publicPath,
         headers: { //跨域资源访问
